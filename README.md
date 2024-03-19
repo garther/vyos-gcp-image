@@ -2,8 +2,17 @@
 Vyos (https://vyos.io/) image for Google Cloud
 
 ## About
-Sometimes you need a small firewall / router appliance running in the cloud and Vyos is a perfect fit. Since I was not able to find a good image ready for GCP, I decided to create one.
-This build is based on the community version nighly ISOs.
+A ready-to-go image of Vyos dedicated for Google Cloud. 
+
+## Changes
+### v2
+Since v2 I am adding [GCP Guest Agent](https://cloud.google.com/compute/docs/images/install-guest-environment) - this adds support of SSH via Cloud Shell.
+After connecting to the instance, you have to switch to "vyos" user.
+
+![Vyos GCP Cloud Console SSH](./vyos_gcp.png)
+
+### v1
+Vanilla image with no alterations to system packages
 
 ## Importing the image
 - create a project in GCP and enable:
@@ -55,6 +64,14 @@ interfaces {
     }
 }
 service {
+    ntp {
+        allow-client {
+            address 0.0.0.0/0
+            address ::/0
+        }
+        server metadata.google.internal {
+        }
+    }
     ssh {
     }
 }
@@ -88,16 +105,12 @@ system {
         }
     }
     name-server 169.254.169.254
-    ntp {
-        server metadata.google.internal {
-        }
-    }
     syslog {
         global {
             facility all {
                 level info
             }
-            facility protocols {
+            facility local7 {
                 level debug
             }
         }

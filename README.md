@@ -6,7 +6,7 @@ A ready-to-go image of Vyos dedicated for Google Cloud.
 
 ## Changes
 ### v2
-Since v2 I am adding [GCP Guest Agent](https://cloud.google.com/compute/docs/images/install-guest-environment) - this adds support of SSH via Cloud Shell.
+Since v2 I am adding [GCP Guest Agent](https://cloud.google.com/compute/docs/images/install-guest-environment) - this adds support of SSH via Cloud Shell. Guest Agent is not using network daemon to configure the network - this is being done by Vyos cli.
 After connecting to the instance, you have to switch to "vyos" user.
 
 ![Vyos GCP Cloud Console SSH](./vyos_gcp.png)
